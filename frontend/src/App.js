@@ -14,7 +14,7 @@ function App() {
 
   return (
     <Router>
-      <TopBar />
+      {/* <TopBar /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={user ? <Home /> : <Register />} />
