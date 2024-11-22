@@ -8,19 +8,15 @@ const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const multer = require("multer");
 const path = require("path");
+const connectDb=require("./config/dbConnection")
 
 dotenv.config();
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 
 
-mongoose
-  .connect('mongodb://127.0.0.1:27017/beeproject', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log(err));
+connectDb()
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
