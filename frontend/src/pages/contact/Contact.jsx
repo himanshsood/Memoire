@@ -1,28 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./contact.css"; // Add styles as needed
+import "./contact.css";
 
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState(""); // To show submission feedback
+  const [status, setStatus] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const contactData = { name, email, message };
 
     try {
-      // Update the URL to match the backend route
-      await axios.post("/contact", contactData);
-
+      await axios.post("http://localhost:5000/api/contact", contactData);
       setStatus("Message sent successfully!");
       setName("");
       setEmail("");
       setMessage("");
     } catch (err) {
+      console.error("Error submitting contact form:", err);
       setStatus("Failed to send the message. Please try again.");
-      console.error(err);
     }
   };
 
