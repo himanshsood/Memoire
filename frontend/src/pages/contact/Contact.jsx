@@ -13,7 +13,9 @@ export default function Contact() {
     const contactData = { name, email, message };
 
     try {
+      // Update the URL to match the backend route
       await axios.post("/contact", contactData);
+
       setStatus("Message sent successfully!");
       setName("");
       setEmail("");
