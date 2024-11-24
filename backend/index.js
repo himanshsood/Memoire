@@ -7,6 +7,7 @@ const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const contactRoute=require("./routes/contact")
+const downloadPost = require("./routes/downloadPost")
 const multer = require("multer");
 const path = require("path");
 const connectDb=require("./config/dbConnection")
@@ -42,6 +43,8 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/contact",contactRoute)
+app.use("/api/download-post",downloadPost)
+
 app.listen("5000", () => {
   console.log("Backend is running.");
 });

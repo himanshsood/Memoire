@@ -45,6 +45,27 @@ export default function SinglePost() {
     } catch (err) {}
   };
 
+  const handleDownload = async () => {
+    try {
+
+      // Send a GET request to the backend to download the post
+      const response = await axios.get(`http://localhost:5000/api/download-post/${post._id}`, {
+        responseType: "blob", // Important for handling file downloads
+      });
+
+      // Create a URL for the file and trigger the download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${post.title.replace(/\s+/g, "_")}.txt`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("Error downloading the post:", error);
+    }
+  }
+
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
@@ -83,10 +104,15 @@ export default function SinglePost() {
               {/* <b> {post.username}</b> */}
             </Link>
           </span>
+
           <span className="singlePostDate">
             {new Date(post.createdAt).toDateString()}
           </span>
+
+          {/* <button onClick={handleDownload}>Download Post</button> */}
         </div>
+
+
         {updateMode ? (
           <textarea
             className="singlePostDescInput"
@@ -101,6 +127,12 @@ export default function SinglePost() {
             Update
           </button>
         )}
+
+        <div>
+          <button onClick={handleDownload}>Download Post</button>
+        </div>
+
+
       </div>
     </div>
   );
