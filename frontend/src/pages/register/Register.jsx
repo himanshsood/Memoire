@@ -1,14 +1,15 @@
-
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./register.css";
+import { Link } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,12 +20,19 @@ export default function Register() {
         email,
         password,
       });
-      res.data && window.location.replace("/login"); //if there is response and data we can go to login page
-      
+
+      if (res.data) {
+        // Save the token to local storage
+        localStorage.setItem("authToken", res.data.token);
+
+        // Redirect to home page
+        navigate("/");
+      }
     } catch (err) {
       setError(true);
     }
   };
+
   return (
     <div className="register">
       <span className="registerTitle">Register</span>
@@ -59,7 +67,11 @@ export default function Register() {
           Login
         </Link>
       </button>
-      {error && <span style={{color:"red", marginTop:"10px"}}>Something went wrong!</span>}
+      {error && (
+        <span style={{ color: "red", marginTop: "10px" }}>
+          Something went wrong!
+        </span>
+      )}
     </div>
   );
 }

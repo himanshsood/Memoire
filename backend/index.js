@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
-const categoryRoute = require("./routes/categories");
+
 const contactRoute=require("./routes/contact")
 const downloadPost = require("./routes/downloadPost")
 const multer = require("multer");
@@ -16,7 +16,7 @@ const cors = require("cors");
 dotenv.config();
 
 
-app.use(express.json());
+app.use(express.json()); // It reads the Content-Type header of incoming requests. If the Content-Type is application/json, it parses the JSON data in the request body.
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.use(cors());
 
@@ -41,7 +41,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
-app.use("/api/categories", categoryRoute);
+
 app.use("/api/contact",contactRoute)
 app.use("/api/download-post",downloadPost)
 
