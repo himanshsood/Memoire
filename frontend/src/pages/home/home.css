@@ -1,4 +1,44 @@
+.home {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center align the content */
+  padding: 20px;
+}
 
-.home{
-    display: flex;
+.homeTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px; /* Space between the heading and the photo */
+  text-align: center;
+}
+
+.searchForm {
+  display: flex;
+  margin: 20px 0;
+  width: 80%; /* Reduce the width */
+  max-width: 500px; /* Cap the width */
+}
+
+.searchInput {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  font-size: 14px;
+}
+
+.searchButton {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.searchButton:hover {
+  background-color: #0056b3;
 }
