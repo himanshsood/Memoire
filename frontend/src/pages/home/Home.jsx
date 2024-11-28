@@ -196,9 +196,7 @@ export default function Home() {
         <button type="submit" className="searchButton">
           Search
         </button>
-        <button type="button" className="clearButton" onClick={clearSearch}>
-          Clear
-        </button>
+        
       </form>
       {loading && <p>Loading posts...</p>}
       {error && <p className="error">{error}</p>}
