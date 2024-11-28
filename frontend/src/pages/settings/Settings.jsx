@@ -1,6 +1,6 @@
 import "./settings.css";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
 
@@ -12,7 +12,13 @@ export default function Settings() {
   const [success, setSuccess] = useState(false);
 
   const { user, dispatch } = useContext(Context);
-  const PF = "http://localhost:5000/images/"
+  const PF = "http://localhost:5000/images/";
+
+  // Populate fields with existing user data
+  useEffect(() => {
+    setUsername(user.username || "");
+    setEmail(user.email || "");
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +37,9 @@ export default function Settings() {
       updatedUser.profilePic = filename;
       try {
         await axios.post("/upload", data);
-      } catch (err) {}
+      } catch (err) {
+        console.error("Error uploading file:", err);
+      }
     }
     try {
       const res = await axios.put("/users/" + user._id, updatedUser);
@@ -41,6 +49,7 @@ export default function Settings() {
       dispatch({ type: "UPDATE_FAILURE" });
     }
   };
+
   return (
     <div className="settings">
       <div className="settingsWrapper">
@@ -52,7 +61,7 @@ export default function Settings() {
           <label>Profile Picture</label>
           <div className="settingsPP">
             <img
-              src={file ? URL.createObjectURL(file) : PF+user.profilePic}
+              src={file ? URL.createObjectURL(file) : PF + user.profilePic}
               alt=""
             />
             <label htmlFor="fileInput">
@@ -68,18 +77,22 @@ export default function Settings() {
           <label>Username</label>
           <input
             type="text"
-            placeholder={user.username}
+            placeholder="Enter your username"
+            value={username} // Bind state to input
             onChange={(e) => setUsername(e.target.value)}
           />
           <label>Email</label>
           <input
             type="email"
-            placeholder={user.email}
+            placeholder="Enter your email"
+            value={email} // Bind state to input
             onChange={(e) => setEmail(e.target.value)}
           />
           <label>Password</label>
           <input
             type="password"
+            placeholder="Enter new password"
+            value={password} // Bind state to input
             onChange={(e) => setPassword(e.target.value)}
           />
           <button className="settingsSubmit" type="submit">
@@ -94,7 +107,6 @@ export default function Settings() {
           )}
         </form>
       </div>
-      
     </div>
   );
 }

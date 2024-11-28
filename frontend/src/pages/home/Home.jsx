@@ -145,13 +145,23 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [query, setQuery] = useState(""); // State for the search input
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
   const { search } = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await axios.get("/posts" + search);
-      setPosts(res.data);
+      setLoading(true);
+      setError(null); // Reset error state before fetching
+      try {
+        const res = await axios.get("/posts" + search);
+        setPosts(res.data);
+      } catch (err) {
+        setError("Failed to fetch posts. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     };
     fetchPosts();
   }, [search]);
@@ -165,9 +175,14 @@ export default function Home() {
     }
   };
 
+  const clearSearch = () => {
+    setQuery("");
+    navigate("/");
+  };
+
   return (
     <div className="home">
-      <h1 className="homeTitle">.</h1>
+      {/* <h1 className="homeTitle">My Blog</h1> */}
       <Header />
       <form onSubmit={handleSearch} className="searchForm">
         <input
@@ -176,12 +191,18 @@ export default function Home() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="searchInput"
+          aria-label="Search posts"
         />
         <button type="submit" className="searchButton">
           Search
         </button>
+        <button type="button" className="clearButton" onClick={clearSearch}>
+          Clear
+        </button>
       </form>
-      <Posts posts={posts} />
+      {loading && <p>Loading posts...</p>}
+      {error && <p className="error">{error}</p>}
+      {!loading && !error && <Posts posts={posts} />}
     </div>
   );
 }
