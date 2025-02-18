@@ -74,21 +74,21 @@ export default function Settings() {
               onChange={(e) => setFile(e.target.files[0])}
             />
           </div>
-          <label>Username</label>
+          <label className="labels">Username</label>
           <input
             type="text"
             placeholder="Enter your username"
             value={username} // Bind state to input
             onChange={(e) => setUsername(e.target.value)}
           />
-          <label>Email</label>
+          <label className="labels">Email</label>
           <input
             type="email"
             placeholder="Enter your email"
             value={email} // Bind state to input
             onChange={(e) => setEmail(e.target.value)}
           />
-          <label>Password</label>
+          <label className="labels">Password</label>
           <input
             type="password"
             placeholder="Enter new password"
